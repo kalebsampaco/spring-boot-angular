@@ -16,5 +16,8 @@ Ya está configurado el el nginx desde el docker
 
 ![texto cualquiera por si no carga la imagen](https://github.com/kalebsampaco/spring-boot-angular/blob/main/img/video1.gif?raw=true)
 
-[![Alt text](https://img.youtube.com/vi/3RFAX3CbSGA/0.jpg)]
-(https://github.com/kalebsampaco/spring-boot-angular/blob/main/img/video1.mp4?raw=true)
+
+
+
+https://github.com/user-attachments/assets/d08df195-44cb-440d-9f9b-d8d9953220ae
+
