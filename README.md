@@ -12,3 +12,6 @@ El api esta en la carpeta api_spring corre en el puerto 8080 cuando sube el proy
 
 El frontend corre por el puerto 80, es decir, ``localhost``
 Ya está configurado el el nginx desde el docker
+
+
+![texto cualquiera por si no carga la imagen]
