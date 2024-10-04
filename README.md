@@ -8,7 +8,7 @@
 
 Existe una carpeta data que es el volumen de la base de datos de postgress
 
-El api corre en el puerto 8080 cuando sube el proyecto esta el ``localhost:8080``
+El api esta en la carpeta api_spring corre en el puerto 8080 cuando sube el proyecto esta el ``localhost:8080``
 
 El frontend corre por el puerto 80, es decir, ``localhost``
 Ya está configurado el el nginx desde el docker
