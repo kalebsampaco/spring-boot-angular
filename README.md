@@ -14,4 +14,4 @@ El frontend corre por el puerto 80, es decir, ``localhost``
 Ya está configurado el el nginx desde el docker
 
 
-![texto cualquiera por si no carga la imagen]
+![texto cualquiera por si no carga la imagen]https://github.com/kalebsampaco/spring-boot-angular/blob/main/img/video1.mp4
