@@ -1,0 +1,55 @@
+version: '3.9'
+
+services:
+  # api-admin:
+  #   container_name: api-admin
+  #   build:
+  #       context: ./api_spring
+  #       dockerfile: Dockerfile
+  #   image: apispring:latest
+  #   restart: unless-stopped
+  #   ports:
+  #     - "8080:8080"
+  #   environment:
+  #     - DATABASE_URL=jdbc:postgresql://localhost:5435/admin?useSSL=false
+  #     - DATABASE_USERNAME=admin
+  #     - DATABASE_PASSWORD=admin
+  #   depends_on:
+  #     - database
+
+  front-prueba:
+    container_name: front-prueba
+    image: front-prueba:latest
+    build:
+        context: ./admin-prueba
+        dockerfile: Dockerfile
+    deploy:
+      # replicas: 1
+      resources:
+        limits:
+          cpus: '0.15'
+          memory: 250M
+        reservations:
+          cpus: '0.1'
+          memory: 128M
+    restart: unless-stopped
+    ports:
+      - "80:80"  # Puerto para la primera réplica
+      # - "4201:80"  # Puerto para la segunda réplica
+
+    depends_on:
+      - database
+      # - api-admin
+
+  database:
+    container_name: db_api
+    restart: unless-stopped
+    image: postgres
+    environment:
+      POSTGRES_DB: admin
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+    ports:
+      - 5435:5432
+    volumes:
+      - ./data:/var/lib/postgresql/data

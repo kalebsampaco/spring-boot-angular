@@ -1,0 +1,228 @@
+<!-- Loading bar -->
+<fuse-loading-bar></fuse-loading-bar>
+
+<!-- Navigation -->
+<fuse-vertical-navigation class="bg-white print:hidden" [mode]="isScreenSmall ? 'over' : 'side'" [name]="'mainNavigation'" [opened]="!isScreenSmall" *ngIf="showSidebar" [showMenu]="showMenu" class="z-0">
+    <!-- Navigation header hook -->
+    <ng-container fuseVerticalNavigationContentHeader>
+        <!-- User -->
+        <div class="flex flex-col items-center w-full p-4 dark bg-blue height-175">
+            <div class="flex flex-col items-end justify-end w-full">
+                <mat-icon class="icon-size-15" [svgIcon]="'close'"></mat-icon>
+            </div>
+            <div class="flex flex-col items-center justify-center w-full mt-22rem">
+                <div class="w-full text-green whitespace-nowrap text-ellipsis overflow-hidden text-center leading-normal left-side-title">
+                    {{ user?.infoCustomer ? user?.infoCustomer.nombreCompleto : user?.nombreCompleto }}
+                </div>
+                <div class="w-full text-green mt-0.5 whitespace-nowrap text-ellipsis overflow-hidden text-center leading-normal left-side-subtitle">
+                    {{ user?.infoCustomer ? user?.infoCustomer?.email : user?.email }}
+                </div>
+            </div>
+            <div class="relative w-24 h-24 top-25">
+                <img class="w-full h-full rounded-full" *ngIf="user?.url" [src]="user?.url" alt="User url" />
+                <mat-icon class="icon-size-24" *ngIf="!user?.url" [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
+            </div>
+        </div>
+    </ng-container>
+
+    <!-- Content body services-->
+    <ng-container fuseVerticalServicesContent>
+        <div class="flex justify-center flex-col p-4 mt-3">
+            <small class="text-secondary font-bold mb-3">MENÚ</small>
+            <mat-divider class="mb-3"></mat-divider>
+            <div class="flex items-center mb-3" *ngFor="let item of plans">
+                <!-- <img
+                    class="mr-4 img-50"
+                    (click)="toggleMenu(item)"
+                    style="cursor:pointer;"
+                    src="../../../../assets/images/headers/img-service-{{
+                        item.id
+                    }}.png"
+                    alt="Card cover image"
+                /> -->
+                <mat-icon *ngIf="item.icon !== ''" (click)="toggleMenu(item)" className="text-48 material-icons-outlined" size="{24}" color="action" [svgIcon]="item.icon"></mat-icon>
+                {{ " " }}
+                <span class="ml-2 {{
+                        userPlan || item.id === 4
+                            ? 'font-bold'
+                            : 'text-secondary'
+                    }}" style="cursor: {{
+                        userPlan || item.id === 4 ? 'pointer' : 'default'
+                    }}" (click)="toggleMenu(item)">{{ item.title }}</span
+                >
+            </div>
+            <mat-divider class="mb-6"></mat-divider>
+            <div class="flex items-center mb-6" *ngIf="userPlan && token.rol !== 'ABOGADO_PYME'">
+                <mat-icon
+                    className="text-48 material-icons-outlined"
+                    size="{24}"
+                    color="action"
+                    [svgIcon]="'cloud'"
+                ></mat-icon>
+                <span class="font-bold ml-2" style="cursor: pointer"
+                    >Almacenamiento</span
+                >
+            </div>
+            <div class="flex items-center px-4" *ngIf="userPlan && token.rol !== 'ABOGADO_PYME'">
+                <mat-progress-bar
+                    mode="determinate"
+                    value="80"
+                ></mat-progress-bar>
+            </div>
+            <div class="flex items-center mb-6 px-4" *ngIf="userPlan && token.rol !== 'ABOGADO_PYME'">
+                <div class="flex items-center text-secondary mt-6 font-bold">
+                    0 GB de {{user.infoPlanesCli.infoPlan[0].almaceinamiento}} GB utilizado(s)
+                </div>
+            </div>
+            <div class="flex items-center mb-4 w-full" *ngIf="userPlan && token.rol !== 'ABOGADO_PYME'">
+                <!-- (click)="modalitySearch = 'fast'" -->
+                <button
+                    class="fuse-mat-button-large mr-4 btn-blue-outline"
+                    style="width: 100%"
+                    mat-flat-button
+                    (click)="goTo('gestion-plan')"
+                >
+                    <span> Actualizar plan</span>
+                </button>
+            </div>
+        </div>
+    </ng-container>
+
+    <!-- Navigation footer hook -->
+    <ng-container class="mt-5" fuseVerticalNavigationContentFooter>
+        <div class="flex flex-0 items-center h-9 pr-6 pl-6 -mt-1 mb-2" id="stepFour">
+            <mat-icon svgIcon="heroicons_outline:question-mark-circle"></mat-icon>
+            <small class="textoRecursos ml-2">Recursos de ayuda</small
+            ><!-- (click)="urlYoutube()" -->
+        </div>
+        <div class="flex flex-0 items-center h-9 pr-6 pl-6 mt-2 mb-4">
+            <small class="text-secondary"
+                >Powered by <strong class="text-blue">TOOLES</strong>©</small
+            >
+        </div>
+    </ng-container>
+</fuse-vertical-navigation>
+
+<!-- Wrapper -->
+<div class="flex flex-col flex-auto w-fix min-w-0">
+    <!-- Header -->
+    <div
+        class="relative flex flex-0 items-center  h-16 px-4 md:px-6 z-49 shadow dark:shadow-none dark:border-b bg-card dark:bg-transparent print:hidden"
+    >
+        <!-- Navigation toggle button -->
+        <button
+            mat-icon-button
+            (click)="toggleNavigation('mainNavigation')"
+            *ngIf="showSidebar"
+        >
+            <mat-icon [svgIcon]="'heroicons_outline:menu'"></mat-icon>
+        </button>
+        <ol class="nav-logo">
+            <li class="nav-logo-item" aria-current="page">
+                <img
+                    class="w-full h-full"
+                    src="../../../../../assets/images/logo/logo_tooles.png"
+                    alt="logo-TOOLES"
+                />
+            </li>
+            <li
+                class="nav-logo-item text-115rem flex items-center"
+                aria-current="page"
+            >
+                <strong>{{ config?.title }}</strong>
+            </li>
+        </ol>
+        <div id="stepOneAttorney" class="flex items-center pl-2 ml-auto space-x-0.5 sm:space-x-2">
+            <div
+                *ngIf="!session"
+                class="flex items-center pl-2 ml-auto space-x-0.5 sm:space-x-2"
+            >
+                <div
+                    class="mr-8 font-bold"
+                    (click)="openDialog(signInModal, '25%')"
+                >
+                    Iniciar sesión
+                </div>
+                <button
+                    class="fuse-mat-button-large btn-blue"
+                    (click)="goto3('https://clientes.vigpro.com/register ')"
+                    mat-flat-button
+                >
+                    <span> Registrarme </span>
+                </button>
+            </div>
+            <div
+                *ngIf="session"
+                class="flex items-center pl-2 ml-auto space-x-0.5 sm:space-x-2"
+                id="stepOneAttorney"
+            >
+            <button mat-icon-button
+                [matMenuTriggerFor]="matMenuSesion"
+                [disabled]="proximasSesiones?.length === 0"
+                *ngIf="token.rol !== 'PYMES_DIR'"
+                >
+                <span class="relative">
+                    <mat-icon
+                    svgIcon="heroicons_outline:bell"
+                    [matBadgeHidden]="proximasSesiones?.length === 0"
+                    [matBadge]="proximasSesiones?.length"
+                    matBadgeColor="warn"
+                ></mat-icon>
+                </span>
+            </button>
+            <mat-menu [xPosition]="'before'" #matMenuSesion="matMenu">
+                <button mat-menu-item *ngFor="let sesion of proximasSesiones; let i = index">
+                    <span>Sesión: {{sesion.fechasesion  | date : 'EEEE, MMMM d'}} de {{sesion.horaI}}-{{sesion.horaF}}</span>
+                </button>
+                <mat-divider class="my-2" *ngIf="i < proximasSesiones?.length"></mat-divider>
+
+            </mat-menu>
+
+                <div class="flex">
+                    <div class="flex flex-col text-right mr-4">
+                        <span class="text-blue font-bold">{{
+                            user?.infoCustomer ?  user?.infoCustomer?.nombreCompleto : user?.nombreCompleto
+                        }}</span>
+                        <small class="text-secondary font-bold">
+                        Rol: {{token.rol == 'PYMES_DIR' ?  'Pymes' : 'Abogado'}}</small>
+        </div>
+        </div>
+        <button mat-icon-button [matMenuTriggerFor]="userActions">
+                    <span class="relative">
+                        <img
+                            class="w-7 h-7 rounded-full"
+                            *ngIf="user?.url"
+                            [src]="user?.url"
+                        />
+                        <mat-icon
+                            *ngIf="!user?.url"
+                            [svgIcon]="'heroicons_outline:user-circle'"
+                        ></mat-icon>
+                    </span>
+                </button>
+        <mat-menu [xPosition]="'before'" #userActions="matMenu">
+            <button mat-menu-item (click)="goTo('perfil')">
+                        <mat-icon
+                            [svgIcon]="'heroicons_outline:user-circle'"
+                        ></mat-icon>
+                        <span>Perfil</span>
+                    </button>
+            <mat-divider class="my-2"></mat-divider>
+
+            <button mat-menu-item (click)="signOut()">
+                        <mat-icon [svgIcon]="'heroicons_outline:logout'"></mat-icon>
+                        <span>Cerrar sesion</span>
+                    </button>
+        </mat-menu>
+        </div>
+        </div>
+
+        </div>
+
+        <!-- Content -->
+        <div class="flex flex-col flex-auto">
+            <!-- *ngIf="true" hack is required here for router-outlet to work correctly.
+             Otherwise, layout changes won't be registered and the view won't be updated! -->
+            <router-outlet *ngIf="true" [showPyme]="showPyme"></router-outlet>
+        </div>
+        </div>

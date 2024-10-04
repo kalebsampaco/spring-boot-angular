@@ -1,0 +1,153 @@
+<div class="flex flex-col items-center justify-center w-full h-full mx-4">
+    <div class="grid grid-cols-6 gap-4 w-full  mb-15" >
+        <div class="w-full col-span-2">
+
+            <!-- Form -->
+            <form [formGroup]="accountForm">
+
+                <!-- Section -->
+                <div class="w-full">
+                    <div class="text-xl">Añadir a Inventario</div>
+                    <div class="text-secondary">Llene todos los datos para crear el autor</div>
+                </div>
+                <div class="grid sm:grid-cols-4 gap-6 w-full mt-8">
+                    <!-- Nombres -->
+                    <div class="sm:col-span-4">
+                        <mat-form-field class="fuse-mat-no-subscript w-full">
+                            <mat-label class="text-white">Nombre del producto</mat-label>
+                            <mat-icon
+                                class="icon-size-5"
+                                [svgIcon]="'heroicons_solid:user'"
+                                matPrefix></mat-icon>
+                            <input
+                                placeholder="Nombre producto"
+                                [formControlName]="'nombreProducto'"
+                                matInput>
+                        </mat-form-field>
+                    </div>
+                    <div class="sm:col-span-4">
+                        <mat-form-field class="fuse-mat-no-subscript w-full">
+                            <mat-label class="text-white">Cantidad</mat-label>
+                            <mat-icon
+                                class="icon-size-5"
+                                [svgIcon]="'heroicons_solid:user'"
+                                matPrefix></mat-icon>
+                            <input
+                                type="number"
+                                placeholder="Cantidad"
+                                [formControlName]="'cantidad'"
+                                matInput required>
+                        </mat-form-field>
+                    </div>
+                    <div class="sm:col-span-4">
+                        <mat-form-field class="w-full">
+                            <mat-label>Usuario creador</mat-label>
+                            <mat-select [formControlName]="'userRegister'" required>
+                                <mat-option>--</mat-option>
+                                <mat-option *ngFor="let user of empleadosList" [value]="user.id">
+                                {{user.firstName}} {{user.lastName}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="accountForm.hasError('required')">Seleccione un usuario</mat-error>
+                            <mat-hint>{{accountForm.value?.firstName}}</mat-hint>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <!-- Actions -->
+                <div class="flex items-center justify-end">
+                   <!--  <button
+                        mat-stroked-button
+                        type="button">
+                        Cancel
+                    </button> -->
+                    <button
+                        class="ml-4"
+                        mat-flat-button
+                        (click)="crearInventario()"
+                        type="button"
+                        [disabled]="accountForm.invalid"
+                        [color]="'primary'">Crear inventario
+                    </button>
+                </div>
+            </form>
+
+        </div>
+
+        <div class="w-auto p-10 col-span-4 overflow-x-auto">
+            <mat-form-field>
+                <mat-label>Filtro</mat-label>
+                <input matInput (keyup)="applyFilter($event)" placeholder="Ex. nombre, cantidad" #input>
+            </mat-form-field>
+            <table mat-table [dataSource]="data" class="mat-elevation-z8 table-auto">
+                <!-- Definir las columnas de forma dinámica -->
+                <ng-container *ngFor="let column of displayedColumns">
+                <ng-container [matColumnDef]="column">
+                    <th mat-header-cell *matHeaderCellDef> {{ column }} </th>
+                    <td mat-cell *matCellDef="let element">
+                    <!-- Mostrar valores dinámicos o campos de input si está en modo edición -->
+                    <ng-container *ngIf="!element.isEditing || (column !== 'nombreProducto' && column !== 'cantidad' && column !== 'userModified')">
+                        {{ element[column] }}
+                    </ng-container>
+                    <ng-container *ngIf="element.isEditing && (column === 'nombreProducto' || column === 'cantidad')">
+                        <input matInput [(ngModel)]="element[column]" class="border rounded p-1" />
+                    </ng-container>
+                    <ng-container *ngIf="element.isEditing && column === 'userModified'">
+
+                        <mat-form-field class="w-full">
+                            <mat-select [(ngModel)]="element[column]" required>
+                                <mat-option>--</mat-option>
+                                <mat-option *ngFor="let user of empleadosList" [value]="user.id">
+                                {{user.firstName}} {{user.lastName}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </ng-container>
+
+                    <!-- Mostrar los botones de acción en la columna 'actions' -->
+                    <ng-container *ngIf="column === 'actions'">
+                        <button *ngIf="!element.isEditing" mat-icon-button color="primary" (click)="onEdit(element)">
+                        <mat-icon>edit</mat-icon>
+                        </button>
+                        <button *ngIf="element.isEditing" mat-icon-button color="primary" (click)="onSave(element)">
+                        <mat-icon>save</mat-icon>
+                        </button>
+                        <button mat-icon-button color="warn" (click)="onDelete(element)">
+                        <mat-icon>delete</mat-icon>
+                        </button>
+                    </ng-container>
+                    </td>
+                </ng-container>
+                </ng-container>
+
+                <!-- Definir las filas de la tabla -->
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+        </div>
+
+        <!-- <div class="w-full p-10 col-span-4">
+            <table mat-table [dataSource]="data" class="mat-elevation-z8">
+                @for (column of displayedColumns; track column) {
+                    <ng-container [matColumnDef]="column">
+                    <th mat-header-cell *matHeaderCellDef> {{column}} </th>
+                    <td mat-cell *matCellDef="let element"> {{element[column]}} </td>
+                    </ng-container>
+                    <ng-container *ngIf="column === 'actions'">
+                        <button mat-icon-button color="primary" (click)="onEdit(element)">
+                        <mat-icon>edit</mat-icon>
+                        </button>
+                        <button mat-icon-button color="warn" (click)="onDelete(element)">
+                        <mat-icon>delete</mat-icon>
+                        </button>
+                    </ng-container>
+                }
+
+                <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+                <tr mat-row *matRowDef="let row; columns: columnsToDisplay;"></tr>
+            </table>
+
+        </div> -->
+
+    </div>
+</div>

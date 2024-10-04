@@ -1,0 +1,122 @@
+<div class="flex flex-col items-center justify-center w-full h-full mx-4">
+        <div class="grid grid-cols-6 gap-4 w-full  mb-15" >
+        <div class="w-full col-span-2">
+
+            <!-- Form -->
+            <form [formGroup]="accountForm">
+
+                <!-- Section -->
+                <div class="w-full">
+                    <div class="text-xl">Crear Empleado</div>
+                    <div class="text-secondary">Llene todos los datos para crear la categoria</div>
+                </div>
+                <div class="grid sm:grid-cols-4 gap-6 w-full mt-8">
+                    <!-- Nombres -->
+                    <div class="sm:col-span-4">
+                        <mat-form-field class="fuse-mat-no-subscript w-full">
+                            <mat-label class="text-white">Nombres</mat-label>
+                            <mat-icon
+                                class="icon-size-5"
+                                [svgIcon]="'heroicons_solid:user'"
+                                matPrefix></mat-icon>
+                            <input
+                                placeholder="Nombres"
+                                [formControlName]="'firstName'"
+                                matInput>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="sm:col-span-4">
+                        <mat-form-field class="fuse-mat-no-subscript w-full">
+                            <mat-label class="text-white">Apellidos</mat-label>
+                            <mat-icon
+                                class="icon-size-5"
+                                [svgIcon]="'heroicons_solid:user'"
+                                matPrefix></mat-icon>
+                            <input
+                                placeholder="Apellidos"
+                                [formControlName]="'lastName'"
+                                matInput>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="sm:col-span-4">
+                        <mat-form-field class="fuse-mat-no-subscript w-full">
+                            <mat-label class="text-white">Email</mat-label>
+                            <mat-icon
+                                class="icon-size-5"
+                                [svgIcon]="'heroicons_solid:user'"
+                                matPrefix></mat-icon>
+                            <input
+                                type="email"
+                                placeholder="email"
+                                [formControlName]="'emailAddress'"
+                                matInput>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="sm:col-span-4">
+                        <mat-form-field class="fuse-mat-no-subscript w-full">
+                            <mat-label class="text-white">Edad</mat-label>
+                            <mat-icon
+                                class="icon-size-5"
+                                [svgIcon]="'heroicons_solid:user'"
+                                matPrefix></mat-icon>
+                            <input
+                                placeholder="Edad"
+                                [formControlName]="'edad'"
+                                matInput>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="sm:col-span-4">
+                        <mat-form-field class="w-full">
+                            <mat-label>Cargo</mat-label>
+                            <mat-select [formControlName]="'cargo'" required>
+                                <mat-option>--</mat-option>
+                                <mat-option *ngFor="let cargo of CargosList" [value]="cargo.id">
+                                {{cargo.cargo}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <!-- Actions -->
+                <div class="flex items-center justify-end">
+                   <!--  <button
+                        mat-stroked-button
+                        type="button">
+                        Cancel
+                    </button> -->
+                    <button
+                        class="ml-4"
+                        mat-flat-button
+                        (click)="crearEmpleado()"
+                        type="button"
+                        [disabled]="accountForm.invalid"
+                        [color]="'primary'">Crear Empleado
+                    </button>
+                </div>
+            </form>
+
+        </div>
+
+        <div class="w-full p-10 col-span-4 overflow-x-auto">
+
+            <table mat-table [dataSource]="data" class="mat-elevation-z8">
+                @for (column of displayedColumns; track column) {
+                    <ng-container [matColumnDef]="column">
+                    <th mat-header-cell *matHeaderCellDef> {{column}} </th>
+                    <td mat-cell *matCellDef="let element"> {{element[column]}} </td>
+                    </ng-container>
+                }
+
+                <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+                <tr mat-row *matRowDef="let row; columns: columnsToDisplay;"></tr>
+            </table>
+
+        </div>
+
+    </div>
+</div>

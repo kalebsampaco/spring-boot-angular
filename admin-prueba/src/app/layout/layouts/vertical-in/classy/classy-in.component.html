@@ -1,0 +1,137 @@
+<!-- Loading bar -->
+<fuse-loading-bar></fuse-loading-bar>
+
+<!-- Navigation -->
+<fuse-vertical-navigation
+    class="bg-white print:hidden"
+    [mode]="isScreenSmall ? 'over' : 'side'"
+    [name]="'mainNavigation'"
+    [navigation]="navigation?.default"
+    [navigationFooter]="navigation?.footer"
+    [opened]="!isScreenSmall"
+    [showMenu]="showMenu"
+>
+   <!-- Navigation header hook -->
+   <ng-container fuseVerticalNavigationContentHeader>
+    <!-- User -->
+    <div class="flex flex-col items-center w-full p-4 dark bg-blue">
+        <div class="flex items-center justify-start w-full mb-6">
+
+            <mat-icon
+                class="icon-size-8 text-blue-light cursor-pointer"
+                svgIcon="heroicons_solid:arrow-circle-left"
+                (click)="goTo('consultar-procesos')"
+            ></mat-icon>
+        </div>
+        <div class="w-full px-2 mb-8">
+            <div class="text-secondary font-bold text-lg">
+                Consulta de procesos
+            </div>
+            <div class="text-xlg">
+                Gratis 0,00 <small>COP</small>
+            </div>
+            <small class="text-secondary"
+                >Servicio gratuito</small
+            >
+            <div class="mt-2">
+
+            </div>
+        </div>
+    </div>
+</ng-container>
+
+    <!-- Content body services-->
+    <!-- <ng-container fuseVerticalServicesContent>
+        <div class="flex justify-center flex-col p-4 mt-8">
+            <small class="text-secondary font-bold">Servicio solicitado</small>
+            <mat-divider class="mb-6"></mat-divider>
+            <div class="flex items-center" *ngFor="let item of plans">
+                <img
+                    class="mr-4 img-50"
+                    (click)="toggleMenu(item)"
+                    style="cursor: pointer"
+                    src="../../../../assets/images/headers/img-service-{{
+                        item.id
+                    }}.png"
+                    alt="Card cover image"
+                />
+                <span
+                    class="font-bold"
+                    style="cursor: pointer"
+                    (click)="toggleMenu(item)"
+                    >{{ item.title }}</span
+                >
+            </div>
+        </div>
+    </ng-container> -->
+
+    <!-- Navigation footer hook -->
+    <ng-container fuseVerticalNavigationContentFooter>
+        <div class="flex flex-0 items-center h-12 pr-6 pl-6 mt-2 mb-4">
+            <mat-icon svgIcon="heroicons_outline:question-mark-circle"></mat-icon>
+            <small class="text-secondary" (click)="urlYoutube()"
+                >Recursos de ayuda</small
+            >
+        </div>
+        <div class="flex flex-0 items-center h-12 pr-6 pl-6 mt-2 mb-4">
+            <small class="text-secondary"
+                >Powered by <strong class="text-blue">TOOLES</strong>©</small
+            >
+        </div>
+    </ng-container>
+</fuse-vertical-navigation>
+
+<!-- Wrapper -->
+<div class="flex flex-col flex-auto w-full min-w-0">
+    <!-- Header -->
+    <div
+        class="flex items-center w-full h-16 px-4 md:px-6 z-49 shadow dark:shadow-none dark:border-b bg-card dark:bg-transparent print:hidden"
+    >
+        <ol class="nav-logo">
+            <li class="nav-logo-item" aria-current="page">
+                <img
+                    class="w-full h-full"
+                    src="../../../../../assets/images/logo/logo_tooles.png"
+                    alt="logo-tooles"
+                />
+            </li>
+            <li
+                class="nav-logo-item text-115rem flex items-center"
+                aria-current="page"
+            >
+                <strong>{{ config?.title }}</strong>
+            </li>
+        </ol>
+        <!-- Components -->
+        <!-- <div class="flex items-center pl-2 ml-auto space-x-0.5 sm:space-x-2">
+            <search [appearance]="'bar'"></search>
+            <messages></messages>
+            <div
+                class="flex items-center pl-2 ml-auto space-x-0.5 sm:space-x-2"
+            >
+                <div class="flex">
+                    <div class="flex flex-col text-right mr-4">
+                        <span class="text-blue font-bold">{{
+                            user?.nombresContacto
+                        }}</span>
+                        <small class="text-secondary font-bold">{{
+                            user?.infoRol
+                        }}</small>
+                    </div>
+                    <img
+                        class="w-10 h-10 rounded-full"
+                        *ngIf="user?.url"
+                        [src]="user?.url"
+                        alt="User url"
+                    />
+                </div>
+            </div>
+        </div> -->
+    </div>
+    <!-- Content -->
+    <div class="flex flex-col flex-auto">
+        <!-- *ngIf="true" hack is required here for router-outlet to work correctly.
+             Otherwise, layout changes won't be registered and the view won't be updated! -->
+        <router-outlet *ngIf="true"></router-outlet>
+    </div>
+</div>
